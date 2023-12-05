@@ -1,0 +1,100 @@
+Lizard Class
+ This class represents the player-controlled lizard in the game.
+The lizard serves as the player and responds to player input. 
+It can ascend when prompted (space bar up arrow), or descend due to gravity when not climbing. 
+The main objective is to navigate the lizard through the openings between pipes, earning one point for each successful passage. 
+Colliding with a pipe results in the end of the game.
+
+Attributes:
+- x: The X coordinate of the lizard.
+- y: The Y coordinate of the lizard.
+- MAX_REMAINING_FLY_TIME: The remaining milliseconds for the lizard to complete its climb. 
+A full climb takes lizard.FLY_TIME milliseconds.
+
+Constants:
+- WIDTH: The width, in pixels, of the lizard's image.
+- HEIGHT: The height, in pixels, of the lizard's image.
+- GRAVITY_SPEED: The speed, in pixels per millisecond, at which the lizard descends when not climbing.
+- FLYING_SPEED: The speed, in pixels per millisecond, at which the lizard ascends while climbing, on average. Refer to the lizard.update docstring for more details.
+- FLY_TIME: The number of milliseconds required for the lizard to execute a complete fly.
+
+def __init__(self, x, y, MAX_REMAINING_FLY_TIME, images):
+This function employs the function to ensure a gradual ascent:
+        The lizard makes minimal upward movement in the initial and final frames,
+        while experiencing significant ascent in the middle frames.
+        A complete ascent cycle takes FLY_TIME milliseconds, with the lizard
+        ascending at an average speed of FLYING_SPEED px/ms.
+        If the lizard's MAX_REMAINING_FLY_TIME attribute was > 0 when this method
+        is called, it will be automatically decremented accordingly.
+
+        Parameters:
+        Frame_Counter: The number of frames that have passed since the last call
+         of this method starts @ 1.
+ 
+Def image
+
+ This will decide whether to return an image where the lizard
+         is pointing upward or where it is pointing downward
+        based on pygame.time.get_ticks().  This will animate the
+        lizard going up & Down, Since pygame doesn't support animated GIFs.
+
+Class cactus pair
+Defines a Cactus Pair object representing obstacles in the game.
+
+    A Cactus Pair consists of a top and bottom cactus, creating a passage
+    for the lizard to navigate through. Colliding with either part of
+    the Cactus Pair results in the end of the game.
+
+    Attributes:
+    x: Float representing the X position of the Cactus Pair for smooth
+        movement. There is no y attribute, as it is always set to 0.
+    image: Pygame.Surface that can have the pixels rendered to the display surface to
+        visually represent the Cactus Pair.
+    Mask: BitMask excluding pixels in self.image with transparency
+        greater than 127, useful for collision detection.
+    Top_Cactus_Pair_Pieces: Number of pieces, including the end piece, in the top cactus.
+    Bottom_Cactus_Pair_Pieces: Number of pieces, including the end piece, in the
+        bottom cactus.
+
+    Constants:
+    WIDTH: Width of a cactus piece and the Cactus Pair's image in pixels.
+    PIECE_HEIGHT: Height of a cactus piece in pixels.
+    ADD_INTERVAL: time in milliseconds between adding new cactus peices.
+
+def __init__(self, Cactus_Tip_img, Cactus_body_img):
+
+Initializes a new random Cactus_Pair.
+
+        The new Cactus_Pair will automatically be assigned an x attribute of
+        float(WIN_WIDTH - 1).
+
+        Arguments:
+        Cactus_Tip_img: The image to use to represent a cactus end piece.
+        Cactus_body_img: The image to use to represent one horizontal slice
+            of a cactus body.
+
+def load_images():
+Load all images required by the game and return a dict of them.
+
+    The returned dict has the following keys:
+    background: The game's background image.
+    lizard-FacingUp: An image of the lizard with its wing pointing upward.
+        Use this and lizard-FacingDown to create a flapping lizard.
+    lizard-FacingDown: An image of the lizard with its wing pointing downward.
+        Use this and lizard-FacingUp to create a flapping lizard.
+    Cactus-Tip: An image of a cactus end piece.
+        Use this and cactus-body to make cactus peices.
+    Cactus-body: An image of a slice of a cactus body.  Use this and
+        cactus-body to make pipes.
+
+ def load_image(img_file_name):
+Return the loaded pygame image with the specified file name.
+
+        This function looks for images in the game's images folder
+        (dirname(__file__)/images/). All images are converted before being
+        returned to speed up blitting.
+
+        Arguments:
+        img_file_name: The file name (including its extension, e.g.
+            '.png') of the required image, without a file path.
+
